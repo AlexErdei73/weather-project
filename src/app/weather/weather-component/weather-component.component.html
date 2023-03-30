@@ -1,2 +1,23 @@
-<h2>Temperature In {{ cityName }}</h2>
-<h2>Temperature: {{ temperature }}Celsius</h2>
+<h2>Temperature In {{ city.name }}</h2>
+<h2>Temperature: {{ city.temperature }}Celsius</h2>
+<div *ngIf="!!message">{{ message }}</div>
+<div class="form-group">
+  <form (ngSubmit)="changeCity(cityForm)" #cityForm="ngForm">
+    <div class="city-name">
+      <label for="cityName">City*:</label>
+      <input
+        type="text"
+        placeholder="Budapest"
+        required
+        name="cityName"
+        id="cityName"
+        #cityName="ngModel"
+        [(ngModel)]="city.name"
+      />
+    </div>
+    <div *ngIf="cityName.errors && cityName.errors['required']">
+      City Name is Mandatory
+    </div>
+    <button type="submit">Submit</button>
+  </form>
+</div>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { City } from 'src/app/model/city';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-weather-component',
@@ -10,8 +11,7 @@ import { City } from 'src/app/model/city';
 export class WeatherComponentComponent implements OnInit {
   public city!: City;
   public message!: string;
-  public data!: Observable<Object>;
-  constructor() {
+  constructor(private http: HttpClient) {
     this.city = { name: 'Budapest', temperature: 0 }; //Initialise with a city
   }
 
@@ -25,10 +25,20 @@ export class WeatherComponentComponent implements OnInit {
 
   changeCity(cityForm: { valid: any }) {
     if (cityForm.valid) {
-      console.log(this.city);
+      this.fetch();
     } else {
       this.message = 'Form is invalid!';
       console.error(new Error(this.message));
     }
+  }
+
+  private fetch() {
+    this.http
+      .get(this.url(this.city.name))
+      .subscribe(
+        (data) =>
+          (this.city.temperature =
+            (data as { main: { temp: number } }).main.temp - 273.16)
+      );
   }
 }

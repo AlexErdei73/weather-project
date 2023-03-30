@@ -1,5 +1,5 @@
 <h2>Temperature In {{ city.name }}</h2>
-<h2>Temperature: {{ city.temperature }}Celsius</h2>
+<h2>Temperature: {{ city.temperature.toFixed(2) }}Celsius</h2>
 <div *ngIf="!!message">{{ message }}</div>
 <div class="form-group">
   <form (ngSubmit)="changeCity(cityForm)" #cityForm="ngForm">
